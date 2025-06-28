@@ -1,0 +1,871 @@
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inventario de Artículos Tecnológicos juanfe</title>
+  <link rel="icon" href="logo.png" type="image/x-icon">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --primary-color: #78d700;
+      --primary-hover: #78d700;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-primary {
+      background-color: var(--primary-color);
+      transition: background-color 0.2s;
+    }
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+    .ring-primary {
+      --tw-ring-color: var(--primary-color);
+    }
+    .bg-primary {
+      background-color: var(--primary-color);
+    }
+    .text-primary {
+      color: var(--primary-color);
+    }
+    .text-primary:hover {
+      opacity: 0.8;
+    }
+    
+    /* Estilos para el modal */
+    #deleteModal {
+      transition: opacity 0.3s ease;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+  <header class="text-white p-4 shadow-md bg-primary">
+    <div class="flex items-center justify-center gap-4">
+      <img src="logo.png" alt="Logo" class="h-20 w-auto object-contain">
+      <h1 class="text-2xl font-semibold">Inventario de Artículos Tecnológicos Juanfe</h1>
+    </div>
+  </header>
+
+  <main class="flex-grow container mx-auto p-4 max-w-7xl">
+    <section class="bg-white rounded-lg shadow p-6 mb-8">
+      <h2 class="text-xl font-semibold mb-4 text-gray-800">Agregar / Modificar Activo</h2>
+      <form id="assetForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label for="nombreUsuario" class="block text-gray-700 font-medium mb-1">Nombre de Usuario</label>
+          <input
+            type="text"
+            id="nombreUsuario"
+            name="nombreUsuario"
+            required
+            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 ring-primary"
+            placeholder="Ejemplo: Juan"
+          />
+        </div>
+        <div>
+          <label for="cargo" class="block text-gray-700 font-medium mb-1">Cargo</label>
+          <input
+            type="text"
+            id="cargo"
+            name="cargo" 
+            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 ring-primary"
+            placeholder="Ejemplo: Coordinador TI"
+          />
+        </div>
+        <div>
+          <!-- MODIFICACIÓN: Cambiar "Nombre del Activo" a "Tipo de Activo" -->
+          <label for="tipo" class="block text-gray-700 font-medium mb-1">Tipo de Activo</label>
+          <input
+            type="text"
+            id="tipo"
+            name="tipo"
+            required
+            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 ring-primary"
+            placeholder="Ejemplo: Laptop, Monitor, Teclado"
+          />
+        </div>
+        <div>
+          <label for="codigo" class="block text-gray-700 font-medium mb-1">Código</label>
+          <input
+            type="text"
+            id="codigo"
+            name="codigo"
+            required
+            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 ring-primary"
+            placeholder="Ejemplo: DELLXPS13-001"
+          />
+        </div>
+        <div>
+          <label for="area" class="block text-gray-700 font-medium mb-1">Área de Impacto</label>
+          <select
+            id="area"
+            name="area"
+            required
+            class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 ring-primary"
+          >
+            <option value="" disabled selected>Seleccione un área</option>
+            <option value="CES">CES</option>
+            <option value="CIDI">CIDI</option>
+            <option value="TI+D">TI+D</option>
+            <option value="ACADEMICO">ACADEMICO</option>
+            <option value="PSICOSOCIAL">PSICOSOCIAL</option>
+            <option value="ADMINISTRACION">ADMIN</option>
+            <option value="CEO">CEO</option>
+            <option value="GFDO">GFDO</option>
+            <option value="HILTON">HILTON</option>
+            <option value="PROYECTO">PROYECTO</option>
+            <option value="CONTABILIDAD">CONTABILIDAD</option>
+            <option value="OTRO">OTRO</option>
+          </select>
+        </div>
+        <div>
+          <label for="ciudad" class="block text-gray-700 font-medium mb-1">Ciudad</label>
+          <select
+            id="ciudad"
+            name="ciudad"
+            required
+            class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 ring-primary"
+          >
+            <option value="" disabled selected>Seleccione una ciudad</option>
+            <option value="BOGOTA">BOGOTA</option>
+            <option value="CARTAGENA">CARTAGENA</option>
+            <option value="MEDELLIN">MEDELLIN</option>
+            <option value="URABA">URABA</option>
+          </select>
+        </div>
+        <div>
+          <label for="estado" class="block text-gray-700 font-medium mb-1">Estado</label>
+          <select
+            id="estado"
+            name="estado"
+            required
+            class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 ring-primary"
+          >
+            <option value="" disabled selected>Seleccione estado</option>
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+          </select>
+        </div>
+        <div>
+          <label for="estadoFisico" class="block text-gray-700 font-medium mb-1">Estado Físico</label>
+          <select
+            id="estadoFisico"
+            name="estadoFisico"
+            required
+            class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 ring-primary"
+          >
+            <option value="" disabled selected>Seleccione estado físico</option>
+            <option value="OPTIMO">OPTIMO</option>
+            <option value="ESTADO REGULAR PERO USABLE">ESTADO REGULAR PERO USABLE</option>
+            <option value="MAL ESTADO">MAL ESTADO</option>
+            <option value="TERRIBLE ESTADO">TERRIBLE ESTADO</option>
+          </select>
+        </div>
+        <div>
+          <label for="fechaAsignacion" class="block text-gray-700 font-medium mb-1">Fecha de Asignación</label>
+          <input
+            type="date"
+            id="fechaAsignacion"
+            name="fechaAsignacion"
+            required
+            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 ring-primary"
+          />
+        </div>
+        <div>
+          <label for="fechaBaja" class="block text-gray-700 font-medium mb-1">Fecha de Baja (si no está activo)</label>
+          <input
+            type="date"
+            id="fechaBaja"
+            name="fechaBaja"
+            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 ring-primary"
+            disabled
+          />
+        </div>
+        <div>
+          <label for="proveedor" class="block text-gray-700 font-medium mb-1">Proveedor</label>
+          <input
+            type="text"
+            id="proveedor"
+            name="proveedor"
+            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 ring-primary"
+            placeholder="Ejemplo: Compulago, computerworkin"
+          />
+        </div>
+        <div>
+          <label for="marca" class="block text-gray-700 font-medium mb-1">Marca</label>
+          <input
+            type="text"
+            id="marca"
+            name="marca"
+            class="w-full border border-gray-300 rounded px 3 py-2 focus:outline-none focus:ring-2 ring-primary"
+            placeholder="Ejemplo: Dell"
+          />
+        </div>
+        <div>
+          <label for="modelo" class="block text-gray-700 font-medium mb-1">Modelo</label>
+          <input
+            type="text"
+            id="modelo"
+            name="modelo"
+            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 ring-primary"
+            placeholder="Ejemplo: Latitude 5420"
+          />
+        </div>
+        <div>
+          <label for="procesador" class="block text-gray-700 font-medium mb-1">Procesador</label>
+          <input
+            type="text"
+            id="procesador"
+            name="procesador"
+            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 ring-primary"
+            placeholder="Ejemplo: Intel Core i5"
+          />
+        </div>
+        <div>
+          <label for="ram" class="block text-gray-700 font-medium mb-1">RAM (GB)</label>
+          <input
+            type="text"
+            id="ram"
+            name="ram"
+            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 ring-primary"
+            placeholder="Ejemplo: 8"
+          />
+        </div>
+        <div>
+          <label for="licenciaOffice" class="block text-gray-700 font-medium mb-1">Licencia Office</label>
+          <select
+            id="licenciaOffice"
+            name="licenciaOffice"
+            class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 ring-primary"
+          >
+            <option value="">Seleccione</option>
+            <option value="Si">Sí</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+        <!-- Nuevo campo: Disco Duro -->
+        <div>
+          <label for="discoDuro" class="block text-gray-700 font-medium mb-1">Disco Duro</label>
+          <input
+            type="text"
+            id="discoDuro"
+            name="discoDuro"
+            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 ring-primary"
+            placeholder="Ejemplo: 256GB SSD"
+          />
+        </div>
+        <!-- Nuevo campo: Contraseña (opcional) -->
+        <div>
+          <label for="contrasena" class="block text-gray-700 font-medium mb-1">Contraseña</label>
+          <input
+            type="text"
+            id="contrasena"
+            name="contrasena"
+            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 ring-primary"
+            placeholder="Opcional"
+          />
+        </div>
+        <div class="flex items-end">
+          <button
+            type="submit"
+            class="w-full text-white font-semibold py-2 rounded transition btn-primary"
+          >
+            Guardar Activo
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <section class="bg-white rounded-lg shadow p-6">
+      <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-6">
+        <div class="flex flex-col gap-4">
+          <h2 class="text-xl font-semibold text-gray-800">Inventario</h2>
+          <div class="relative">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Buscar por nombre, área, ciudad o estado físico..."
+              class="w-full md:w-64 border border-gray-300 rounded px-3 py-2 pl-10 focus:outline-none focus:ring-2 ring-primary"
+            />
+            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <div class="bg-gray-50 p-4 rounded-lg border">
+            <label class="flex items-center justify-center gap-2 text-white font-semibold py-3 px-6 rounded-lg transition cursor-pointer mb-2 btn-primary">
+              <i class="fas fa-file-upload"></i> Importar Excel
+              <input type="file" id="fileInput" accept=".xlsx,.xls" class="hidden" />
+            </label>
+            <small class="text-gray-600 text-center block">
+              <!-- MODIFICACIÓN: Actualizar formato de importación -->
+              Exporta Excel para visualizar el formato
+            </small>
+          </div>
+          <div class="bg-gray-50 p-4 rounded-lg border">
+            <button
+              id="btnExportExcel"
+              class="flex items-center justify-center gap-2 text-white font-semibold py-3 px-6 rounded-lg transition w-full mb-2 btn-primary"
+              title="Exportar a Excel"
+            >
+              <i class="fas fa-file-excel"></i> Exportar a Excel
+            </button>
+            <small class="text-gray-600 text-center block">
+              Descargar plantilla con formato correcto
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full border border-gray-300 rounded-lg overflow-hidden">
+    <thead class="text-white" style="background-color: #78d700;">
+      <tr>
+        <th class="px-4 py-2 text-left">N°</th>
+        <th class="px-4 py-2 text-left">Nombre de Usuario</th>
+        <th class="px-4 py-2 text-left">Cargo</th>
+        <!-- MODIFICACIÓN: Cambiar "Nombre" a "Tipo" -->
+        <th class="px-4 py-2 text-left">Tipo</th>
+        <th class="px-4 py-2 text-left">Código</th>
+        <th class="px-4 py-2 text-left">Área de Impacto</th>
+        <th class="px-4 py-2 text-left">Ciudad</th>
+        <th class="px-4 py-2 text-left">Estado</th>
+        <th class="px-4 py-2 text-left">Estado Físico</th>
+        <th class="px-4 py-2 text-left">Fecha Asignación</th>
+        <th class="px-4 py-2 text-left">Fecha de Baja</th>
+        <th class="px-4 py-2 text-left">Proveedor</th>
+        <th class="px-4 py-2 text-left">Marca</th>
+        <th class="px-4 py-2 text-left">Modelo</th>
+        <th class="px-4 py-2 text-left">Procesador</th>
+        <th class="px-4 py-2 text-left">RAM</th>
+        <th class="px-4 py-2 text-left">Lic Office</th>
+        <!-- Nuevos encabezados de tabla -->
+        <th class="px-4 py-2 text-left">Disco Duro</th>
+        <th class="px-4 py-2 text-left">Contraseña</th>
+        <th class="px-4 py-2 text-center">Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="inventoryTableBody" class="bg-white divide-y divide-gray-200">
+      <!-- Filas de inventario se agregan dinámicamente -->
+    </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="text-white text-center p-4 mt-8 bg-primary">
+    <p>© 2025 Inventario Tecnológico - Todos los derechos reservados Jh</p>
+  </footer>
+
+<!-- Modal de confirmación -->
+  <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold text-gray-800">Confirmar eliminación</h3>
+        <button id="closeModal" class="text-gray-500 hover:text-gray-700">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <p class="mb-6 text-gray-600">¿Estás seguro que deseas eliminar este activo? Esta acción no se puede deshacer.</p>
+      <div class="flex justify-end space-x-3">
+        <button id="cancelDelete" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+          Cancelar
+        </button>
+        <button id="confirmDelete" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+          Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
+  import {
+    getFirestore,
+    collection,
+    onSnapshot,
+    addDoc,
+    updateDoc,
+    doc,
+    deleteDoc,
+    query,
+    where,
+    getDocs,
+  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBHYmj_qj7KzVxCYOUbblwsDEU7L5im9T0",
+    authDomain: "inventariojuanfe-404ef.firebaseapp.com",
+    projectId: "inventariojuanfe-404ef",
+    storageBucket: "inventariojuanfe-404ef.firebasestorage.app",
+    messagingSenderId: "855135132371",
+    appId: "1:855135132371:web:693bfe5ba6adea92295226",
+    measurementId: "G-TMWS0502W2"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getFirestore(app);
+
+  let inventario = [];
+  let inventarioFiltrado = [];
+
+  const form = document.getElementById('assetForm');
+  const tbody = document.getElementById('inventoryTableBody');
+  const fechaBajaInput = document.getElementById('fechaBaja');
+  const estadoSelect = document.getElementById('estado');
+  const btnExportExcel = document.getElementById('btnExportExcel');
+  const searchInput = document.getElementById('searchInput');
+
+  // Habilitar o deshabilitar fecha de baja según estado
+  estadoSelect.addEventListener('change', () => {
+    if (estadoSelect.value === 'Inactivo') {
+      fechaBajaInput.disabled = false;
+      fechaBajaInput.required = true;
+    } else {
+      fechaBajaInput.disabled = true;
+      fechaBajaInput.required = false;
+      fechaBajaInput.value = '';
+    }
+  });
+
+  // Escuchar cambios en Firestore en tiempo real
+  onSnapshot(collection(db, "inventario"), (snapshot) => {
+    inventario = [];
+    snapshot.forEach(docSnap => {
+      inventario.push({ id: docSnap.id, ...docSnap.data() });
+    });
+    inventarioFiltrado = [...inventario];
+    filtrarInventario(searchInput.value);
+  });
+
+  // Función para filtrar inventario localmente
+  function filtrarInventario(termino) {
+    if (!termino.trim()) {
+      inventarioFiltrado = [...inventario];
+    } else {
+      const terminoLower = termino.toLowerCase();
+      inventarioFiltrado = inventario.filter(item => 
+        // MODIFICACIÓN: Cambiar item.nombre a item.tipo en la búsqueda
+        item.tipo.toLowerCase().includes(terminoLower) ||
+        item.area.toLowerCase().includes(terminoLower) ||
+        (item.ciudad && item.ciudad.toLowerCase().includes(terminoLower)) ||
+        (item.estadoFisico && item.estadoFisico.toLowerCase().includes(terminoLower)) ||
+        (item.nombreUsuario && item.nombreUsuario.toLowerCase().includes(terminoLower)) ||
+        (item.codigo && item.codigo.toLowerCase().includes(terminoLower)) ||
+        (item.proveedor && item.proveedor.toLowerCase().includes(terminoLower)) ||
+        (item.marca && item.marca.toLowerCase().includes(terminoLower)) ||
+        (item.modelo && item.modelo.toLowerCase().includes(terminoLower)) ||
+        (item.procesador && item.procesador.toLowerCase().includes(terminoLower)) ||
+        (item.ram && item.ram.toLowerCase().includes(terminoLower)) ||
+        (item.licenciaOffice && item.licenciaOffice.toLowerCase().includes(terminoLower)) ||
+        (item.discoDuro && item.discoDuro.toLowerCase().includes(terminoLower)) || /* Nuevo campo de búsqueda */
+        (item.contrasena && item.contrasena.toLowerCase().includes(terminoLower)) /* Nuevo campo de búsqueda */
+      );
+    }
+    renderTable();
+  }
+
+  // Función para renderizar tabla con Firestore datos
+  function renderTable() {
+    tbody.innerHTML = '';
+    inventarioFiltrado.forEach((item, index) => {
+      const tr = document.createElement('tr');
+      tr.classList.add('hover:bg-gray-100');
+
+      tr.innerHTML = `
+        <td class="px-4 py-2 text-center">${index + 1}</td>
+        <td class="px-4 py-2">${item.nombreUsuario || '-'}</td>
+        <td class="px-4 py-2">${item.cargo || '-'}</td>
+        <!-- MODIFICACIÓN: Mostrar item.tipo en lugar de item.nombre -->
+        <td class="px-4 py-2">${item.tipo || '-'}</td>
+        <td class="px-4 py-2">${item.codigo || '-'}</td>
+        <td class="px-4 py-2">${item.area || '-'}</td>
+        <td class="px-4 py-2">${item.ciudad || '-'}</td>
+        <td class="px-4 py-2">${item.estado || '-'}</td>
+        <td class="px-4 py-2">${item.estadoFisico || '-'}</td>
+        <td class="px-4 py-2">${item.fechaAsignacion || '-'}</td>
+        <td class="px-4 py-2">${item.fechaBaja || '-'}</td>
+        <td class="px-4 py-2">${item.proveedor || '-'}</td>
+        <td class="px-4 py-2">${item.marca || '-'}</td>
+        <td class="px-4 py-2">${item.modelo || '-'}</td>
+        <td class="px-4 py-2">${item.procesador || '-'}</td>
+        <td class="px-4 py-2">${item.ram || '-'}</td>
+        <td class="px-4 py-2">${item.licenciaOffice || '-'}</td>
+        <td class="px-4 py-2">${item.discoDuro || '-'}</td> <!-- Nuevo campo en la tabla -->
+        <td class="px-4 py-2">${item.contrasena || '-'}</td> <!-- Nuevo campo en la tabla -->
+        <td class="px-4 py-2 text-center space-x-2">
+          <button data-id="${item.id}" class="btnEdit text-primary" title="Editar">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button data-id="${item.id}" class="btnDelete text-red-600 hover:text-red-800" title="Eliminar">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    // Añadir eventos a botones editar y eliminar
+    document.querySelectorAll('.btnEdit').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const id = e.currentTarget.getAttribute('data-id');
+        cargarParaEditar(id);
+      });
+    });
+
+    document.querySelectorAll('.btnDelete').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const id = e.currentTarget.getAttribute('data-id');
+        eliminarActivo(id);
+      });
+    });
+  }
+
+  // Cargar datos para editar desde Firestore
+  async function cargarParaEditar(id) {
+    const docRef = doc(db, "inventario", id);
+    // MODIFICACIÓN: Usar getDoc directamente para mayor eficiencia
+    const docSnap = await getDoc(docRef); // Se necesita importar getDoc
+    if (docSnap.exists()) { // Verificar si el documento existe
+      const data = docSnap.data();
+      form.nombreUsuario.value = data.nombreUsuario || '';
+      form.cargo.value = data.cargo || '';
+      // MODIFICACIÓN: Cambiar form.nombre a form.tipo
+      form.tipo.value = data.tipo || ''; 
+      form.codigo.value = data.codigo || '';
+      form.area.value = data.area || '';
+      form.ciudad.value = data.ciudad || '';
+      form.estadoFisico.value = data.estadoFisico || '';
+      form.estado.value = data.estado || '';
+      form.fechaAsignacion.value = data.fechaAsignacion || '';
+      
+      // Campos adicionales
+      form.proveedor.value = data.proveedor || '';
+      form.marca.value = data.marca || '';
+      form.modelo.value = data.modelo || '';
+      form.procesador.value = data.procesador || '';
+      form.ram.value = data.ram || '';
+      form.licenciaOffice.value = data.licenciaOffice || '';
+      form.discoDuro.value = data.discoDuro || ''; // Cargar nuevo campo
+      form.contrasena.value = data.contrasena || ''; // Cargar nuevo campo
+
+      if (data.estado === 'Inactivo') {
+        fechaBajaInput.disabled = false;
+        fechaBajaInput.required = true;
+        fechaBajaInput.value = data.fechaBaja || '';
+      } else {
+        fechaBajaInput.disabled = true;
+        fechaBajaInput.required = false;
+        fechaBajaInput.value = '';
+      }
+      form.setAttribute('data-edit-id', id);
+      form.querySelector('button[type="submit"]').textContent = 'Actualizar Activo';
+    } else {
+        console.error("No such document!"); // Documento no encontrado
+    }
+  }
+
+  // Event listener para búsqueda en tiempo real
+  searchInput.addEventListener('input', (e) => {
+    filtrarInventario(e.target.value);
+  });
+
+  // Variables para el modal de confirmación
+  let currentDeleteId = null;
+  const deleteModal = document.getElementById('deleteModal');
+  const closeModal = document.getElementById('closeModal');
+  const cancelDelete = document.getElementById('cancelDelete');
+  const confirmDelete = document.getElementById('confirmDelete');
+
+  // Eventos del modal
+  closeModal.addEventListener('click', () => deleteModal.classList.add('hidden'));
+  cancelDelete.addEventListener('click', () => deleteModal.classList.add('hidden'));
+  
+  // Confirmar eliminación
+  confirmDelete.addEventListener('click', async () => {
+    if (currentDeleteId) {
+      await deleteDoc(doc(db, "inventario", currentDeleteId));
+      deleteModal.classList.add('hidden');
+      currentDeleteId = null;
+    }
+  });
+
+  // Eliminar activo de Firestore (muestra modal)
+  function eliminarActivo(id) {
+    currentDeleteId = id;
+    deleteModal.classList.remove('hidden');
+  }
+
+  // Limpiar formulario después de guardar/actualizar
+  function limpiarFormulario() {
+    form.reset();
+    fechaBajaInput.disabled = true;
+    fechaBajaInput.required = false;
+    form.removeAttribute('data-edit-id');
+    form.querySelector('button[type="submit"]').textContent = 'Guardar Activo';
+  }
+
+  // Manejar submit del formulario para agregar o actualizar
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+
+    const nombreUsuario = form.nombreUsuario.value.trim();
+    const cargo = form.cargo.value.trim();
+    // MODIFICACIÓN: Cambiar form.nombre a form.tipo
+    const tipo = form.tipo.value.trim(); 
+    const codigo = form.codigo.value.trim();
+    const area = form.area.value;
+    const ciudad = form.ciudad.value;
+    const estadoFisico = form.estadoFisico.value;
+    const estado = form.estado.value;
+    const fechaAsignacion = form.fechaAsignacion.value;
+    const fechaBaja = estado === 'Inactivo' ? form.fechaBaja.value : '';
+
+    // Nuevos campos
+    const proveedor = form.proveedor.value.trim();
+    const marca = form.marca.value.trim();
+    const modelo = form.modelo.value.trim();
+    const procesador = form.procesador.value.trim();
+    const ram = form.ram.value.trim();
+    const licenciaOffice = form.licenciaOffice.value;
+    const discoDuro = form.discoDuro.value.trim(); // Obtener nuevo campo
+    const contrasena = form.contrasena.value.trim(); // Obtener nuevo campo
+
+
+    // MODIFICACIÓN: Validar 'tipo' en lugar de 'nombre'
+    if (!nombreUsuario || !tipo || !codigo || !area || !ciudad || !estadoFisico || !estado || !fechaAsignacion) {
+      alert('Por favor, complete todos los campos obligatorios: Nombre de Usuario, Tipo de Activo, Código, Área de Impacto, Ciudad, Estado Físico, Estado, Fecha de Asignación.');
+      return;
+    }
+
+    // MODIFICACIÓN: Usar 'tipo' en el objeto a guardar y añadir nuevos campos
+    const nuevoActivo = { 
+      nombreUsuario, 
+      cargo, 
+      tipo, 
+      codigo, 
+      area, 
+      ciudad, 
+      estadoFisico, 
+      estado, 
+      fechaAsignacion, 
+      fechaBaja,
+      proveedor, // Añadido
+      marca, // Añadido
+      modelo, // Añadido
+      procesador, // Añadido
+      ram, // Añadido
+      licenciaOffice, // Añadido
+      discoDuro, // Añadido
+      contrasena // Añadido
+    };
+
+    const editId = form.getAttribute('data-edit-id');
+    try {
+      if (editId) {
+        // Actualizar activo existente
+        const docRef = doc(db, "inventario", editId);
+
+        // Comprobar código duplicado diferente solo si se modificó código
+        if (codigoChanged(editId, codigo)) {
+          const existeCodigo = await existeCodigoDuplicado(codigo, editId);
+          if (existeCodigo) {
+            alert('El código ya existe en el inventario.');
+            return;
+          }
+        }
+        await updateDoc(docRef, nuevoActivo);
+      } else {
+        // Verificar que no exista código duplicado
+        const existeCodigo = await existeCodigoDuplicado(codigo, null);
+        if (existeCodigo) {
+          alert('El código ya existe en el inventario.');
+          return;
+        }
+        await addDoc(collection(db, "inventario"), nuevoActivo);
+      }
+      limpiarFormulario();
+    } catch (error) {
+      alert('Error al guardar el activo: ' + error.message);
+    }
+  });
+
+  // Verificar si código cambió durante edición para evitar falsos positivos al validar duplicados
+  function codigoChanged(editId, newCodigo) {
+    const original = inventario.find(item => item.id === editId);
+    return original && original.codigo.toLowerCase() !== newCodigo.toLowerCase();
+  }
+
+  // Verificar si existe código duplicado excluyendo el editId actual si aplica
+  async function existeCodigoDuplicado(codigo, excludeId) {
+    const q = query(collection(db, "inventario"), where("codigo", "==", codigo));
+    const querySnapshot = await getDocs(q);
+    for (const docSnap of querySnapshot.docs) {
+      if (docSnap.id !== excludeId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // Exportar a Excel usando SheetJS
+  btnExportExcel.addEventListener('click', () => {
+    if (inventario.length === 0) {
+      alert('No hay datos para exportar.');
+      return;
+    }
+
+    const ws_data = [
+      // MODIFICACIÓN: Cambiar 'nombre' a 'tipo' en los encabezados de exportación y añadir nuevos campos
+      ['#', 'nombreUsuario', 'cargo', 'tipo', 'codigo', 'area', 'ciudad', 'estadoFisico', 'estado', 'fecha asignacion', 'fecha de baja', 'proveedor', 'marca', 'modelo', 'procesador', 'ram', 'licenciaOffice', 'discoDuro', 'contrasena'],
+      ['1', 'Juan', 'Coordinador TI', 'Laptop', 'DELL001', 'TID', 'CARTAGENA', 'OPTIMO', 'Activo', '2023-01-15', '', 'Dell', 'Dell', 'Latitude 5420', 'Intel Core i5', '8', 'Si', '256GB SSD', ''],
+      ...inventario.map((item, index) => [
+        (index + 1).toString(),
+        item.nombreUsuario || '',
+        item.cargo || '',
+        // MODIFICACIÓN: Exportar item.tipo en lugar de item.nombre
+        item.tipo || '',
+        item.codigo || '',
+        item.area || '',
+        item.ciudad || '',
+        item.estadoFisico || '',
+        item.estado || '',
+        item.fechaAsignacion || '',
+        item.fechaBaja || '',
+        item.proveedor || '', // Añadido
+        item.marca || '', // Añadido
+        item.modelo || '', // Añadido
+        item.procesador || '', // Añadido
+        item.ram || '', // Añadido
+        item.licenciaOffice || '', // Añadido
+        item.discoDuro || '', // Añadido
+        item.contrasena || '' // Añadido
+      ]),
+    ];
+
+    const ws = XLSX.utils.aoa_to_sheet(ws_data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Inventario');
+
+    XLSX.writeFile(wb, 'Inventario_Tecnologico.xlsx');
+  });
+
+  // Función para importar datos desde Excel
+  document.getElementById('fileInput').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      const data = await file.arrayBuffer();
+      const workbook = XLSX.read(data);
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+      if (jsonData.length < 2) {
+        throw new Error('El archivo está vacío o no contiene datos válidos');
+      }
+
+      const headers = jsonData[0].map(h => h.toString().toLowerCase().trim());
+      // MODIFICACIÓN: Cambiar 'nombre' a 'tipo' en los encabezados requeridos para importación y añadir nuevos campos
+      const requiredHeaders = ['#', 'nombreusuario', 'cargo', 'tipo', 'codigo', 'area', 'ciudad', 'estadofisico', 'estado', 'fecha asignacion', 'fecha de baja', 'proveedor', 'marca', 'modelo', 'procesador', 'ram', 'licenciaoffice', 'discoduro', 'contrasena'];
+      const missingHeaders = requiredHeaders.filter(h => !headers.includes(h));
+
+      if (missingHeaders.length > 0) {
+        throw new Error(`Faltan columnas requeridas: ${missingHeaders.join(', ')}`);
+      }
+
+      const newInventario = [];
+      for (let i = 1; i < jsonData.length; i++) {
+        const row = jsonData[i];
+        if (row.length === 0) continue;
+
+        const item = {
+          nombreUsuario: row[headers.indexOf('nombreusuario')] || '',
+          cargo: row[headers.indexOf('cargo')] || '',
+          // MODIFICACIÓN: Mapear 'tipo' desde el Excel
+          tipo: row[headers.indexOf('tipo')] || '', 
+          codigo: row[headers.indexOf('codigo')] || '',
+          area: row[headers.indexOf('area')] || '',
+          ciudad: row[headers.indexOf('ciudad')] || '',
+          estadoFisico: row[headers.indexOf('estadofisico')] || '',
+          estado: row[headers.indexOf('estado')] || '',
+          fechaAsignacion: row[headers.indexOf('fecha asignacion')] || '',
+          fechaBaja: row[headers.indexOf('fecha de baja')] || '',
+          proveedor: row[headers.indexOf('proveedor')] || '', // Añadido
+          marca: row[headers.indexOf('marca')] || '', // Añadido
+          modelo: row[headers.indexOf('modelo')] || '', // Añadido
+          procesador: row[headers.indexOf('procesador')] || '', // Añadido
+          ram: row[headers.indexOf('ram')] || '', // Añadido
+          licenciaOffice: row[headers.indexOf('licenciaoffice')] || '', // Añadido
+          discoDuro: row[headers.indexOf('discoduro')] || '', // Añadido
+          contrasena: row[headers.indexOf('contrasena')] || '' // Añadido
+        };
+
+        // MODIFICACIÓN: Validar 'item.tipo' en lugar de 'item.nombre' y añadir validación para fechaAsignacion
+        if (!item.nombreUsuario || !item.tipo || !item.codigo || !item.area || !item.ciudad || !item.estadoFisico || !item.estado || !item.fechaAsignacion) {
+          throw new Error(`Fila ${i + 1}: Faltan datos requeridos (nombreUsuario, tipo, codigo, area, ciudad, estadoFisico, estado, fechaAsignacion).`);
+        }
+
+        const areasValidas = ['CES', 'CIDI', 'TID', 'ACADEMICO', 'PSICOSOCIAL', 'ADMIN', 'CEO']; // Añadido 'CEO' para consistencia
+        if (!areasValidas.includes(item.area.toUpperCase())) {
+          throw new Error(`Fila ${i + 1}: Área inválida "${item.area}"`);
+        }
+
+        const ciudadesValidas = ['BOGOTA', 'CARTAGENA', 'MEDELLIN', 'URABA'];
+        if (!ciudadesValidas.includes(item.ciudad.toUpperCase())) {
+          throw new Error(`Fila ${i + 1}: Ciudad inválida "${item.ciudad}"`);
+        }
+
+        const estadosFisicosValidos = ['OPTIMO', 'ESTADO REGULAR PERO USABLE', 'MAL ESTADO', 'TERRIBLE ESTADO'];
+        if (!estadosFisicosValidos.includes(item.estadoFisico.toUpperCase())) {
+          throw new Error(`Fila ${i + 1}: Estado físico inválido "${item.estadoFisico}"`);
+        }
+
+        if (!['Activo', 'Inactivo'].includes(item.estado)) {
+          throw new Error(`Fila ${i + 1}: Estado inválido "${item.estado}"`);
+        }
+
+        if (newInventario.some(existing => existing.codigo.toLowerCase() === item.codigo.toLowerCase())) {
+          throw new Error(`Fila ${i + 1}: Código duplicado "${item.codigo}"`);
+        }
+
+        newInventario.push(item);
+      }
+
+      // Actualizar Firestore con los datos importados
+      // Para simplicidad: Eliminar todos y volver a agregar (opcional para manejo real)
+      const docsSnapshot = await getDocs(collection(db, 'inventario'));
+      const batchPromises = docsSnapshot.docs.map(docSnap => deleteDoc(doc(db, 'inventario', docSnap.id)));
+      await Promise.all(batchPromises);
+
+      // Agregar nuevos documentos
+      for await (const activo of newInventario) {
+        await addDoc(collection(db, 'inventario'), activo);
+      }
+
+      alert('Datos importados exitosamente');
+      e.target.value = '';
+    } catch (error) {
+      alert('Error al importar el archivo: ' + error.message);
+      e.target.value = '';
+    }
+  });
+
+  // MODIFICACIÓN: Importar getDoc para la función cargarParaEditar
+  import { getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+</script>
+
+</body>
+</html>
